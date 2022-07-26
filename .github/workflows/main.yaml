@@ -93,5 +93,5 @@ jobs:
       shell: bash
       run: |
         echo "WORKFLOW: ${{ env.WORKFLOW_LEVEL }}"
-        echo "STEP 1: ${{ env.STEP_1 }}"
-        echo "STEP 2: ${{ env.STEP_2 }}"
+        echo "STEP 1: $STEP_1"
+        echo "STEP 2: $STEP_2"
