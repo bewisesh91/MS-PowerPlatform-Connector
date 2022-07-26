@@ -95,7 +95,7 @@ jobs:
   deploy-to-prod-job:
     name: 'deploy-to-prod-job'
     needs: 
-    - build-job
+    - deploy-to-dev-job
 
     runs-on: ubuntu-latest
 
