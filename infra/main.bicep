@@ -49,3 +49,17 @@ resource appsvc 'Microsoft.Web/sites@2021-03-01' = {
 
 output rn string = rg
 
+
+
+// Goal : Implement Resources
+
+// * 애저 API 관리자
+
+
+// * 애저 펑션
+// * 애저 저장소 어카운트
+// * 애저 앱 서비스 플랜
+// * 애저 애플리케이션 인사이트
+// * 애저 로그 아날리틱스 워크스페이스
+
+
