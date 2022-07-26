@@ -90,12 +90,40 @@ jobs:
       - name: 'Say DEV'
         shell: bash
         run: |
-          echo "Hello DEV"          
+          echo "Hello DEV"
+
+   deploy-to-qa1-job:
+    name: 'deploy-to-qa1-job'
+    needs:
+    - deploy-to-dev-job
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Say qa1'
+        shell: bash
+        run: |
+          echo "Hello qa1"
+  
+  deploy-to-qa2-job:
+    name: 'deploy-to-qa2-job'
+    needs:
+    - deploy-to-dev-job
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Say qa2'
+        shell: bash
+        run: |
+          echo "Hello qa2"        
+
   
   deploy-to-prod-job:
     name: 'deploy-to-prod-job'
     needs: 
-    - deploy-to-dev-job
+    - deploy-to-qa1-job
+    - deploy-to-qa2-job
 
     runs-on: ubuntu-latest
 
