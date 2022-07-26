@@ -92,7 +92,7 @@ jobs:
         run: |
           echo "Hello DEV"
 
-   deploy-to-qa1-job:
+  deploy-to-qa1-job:
     name: 'deploy-to-qa1-job'
     needs:
     - deploy-to-dev-job
