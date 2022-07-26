@@ -88,7 +88,7 @@ jobs:
       shell: pwsh
       run: |
         $STEP_2='This value comes from the step 2'
-        
+
         echo "::set-output name=value2::$STEP_2"
 
     - name: 'Get output values'
@@ -96,3 +96,4 @@ jobs:
       run: |
         echo "STEP 1: ${{ steps.step1.outputs.value1 }}"
         echo "STEP 2: ${{ steps.step2.outputs.value2 }}"
+        echo "SECRET 1: ${{ secrets.SECRET_1 }}"
