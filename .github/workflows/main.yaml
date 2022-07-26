@@ -98,8 +98,8 @@ jobs:
         echo "STEP 2: ${{ steps.step2.outputs.value2 }}"
         echo "SECRET 1: ${{ secrets.SECRET_1 }}"
 
-        if ("${{ secrets.SECRET_1 }}" -eq "secret") {
-          echo "TRUE"
-        } else {
-          echo "FALSE"
-        }
+        if [ ${{secrets.SECRET_1}} == "secret" ]
+          then
+            echo "True"
+          else
+            echo "False"
