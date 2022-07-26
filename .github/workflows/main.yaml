@@ -78,7 +78,7 @@ jobs:
       id: step1  
       shell: bash
       run: |
-        STEP_1='This value comes from the step 2'
+        STEP_1='This value comes from the step 1'
 
         echo "::set-output name=value1::$STEP_1"
 
@@ -90,7 +90,7 @@ jobs:
 
         echo "::set-output name=value2::$STEP_2"
 
-    - name: 'Get values'
+    - name: 'Get output values'
       shell: bash
       run: |
         echo "STEP 1: ${{ steps.step1.outputs.value1 }}"
