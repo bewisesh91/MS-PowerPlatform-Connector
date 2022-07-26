@@ -71,10 +71,15 @@ jobs:
   first-job:
     name: 'First Job'
 
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        
+
+    runs-on: ${{ matrix.os }}
 
     steps:
-    - name: 'Set output value 1'
+    - name: 'Set output value 1 ${{ matrix.os }}'
       id: step1  
       shell: bash
       run: |
@@ -97,9 +102,3 @@ jobs:
         echo "STEP 1: ${{ steps.step1.outputs.value1 }}"
         echo "STEP 2: ${{ steps.step2.outputs.value2 }}"
         echo "SECRET 1: ${{ secrets.SECRET_1 }}"
-
-        if [ ${secrets.SECRET_1} == "secret" ]
-          then
-            echo "True"
-          else
-            echo "False"
