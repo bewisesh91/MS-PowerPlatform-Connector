@@ -4,22 +4,68 @@ name: 'My First GitHub Actions Workflow'
 # 코드가 push가 되었을 때 작동한다. 이외에도 다양한 작업을 on으로 적용할 수 있다.
 on: push
 
+env:
+ WORKFLOW_LEVEL: 'This value comes from the work flow level'
+
 # 실행되면서 무엇을 할지를 아래에 정의한다.
 # 각각의 job은 독립적인 머신에서 이루어지는 것이라고 할 수 있다.
 jobs:
   first-job:
     name: 'First Job'
     runs-on: ubuntu-latest
+    env: 
+      JOB_LEVEL1: 'This value comes from the job level'
     steps:
       - name: 'Say Hello World on Step 1'
         shell: bash
+        env:
+          STEP_LEVEL1: 'This value comes from Step 1'
         run:
           echo "Hellow World from Step 1"
+
+          echo "Workflow Level $WORKFLOW_LEVEL"
+          echo "Job Level $JOB_LEVEL1"
+          echo "Step Level1 $STEP_LEVEL1"
+          echo "Step Level2 $STEP_LEVEL2"
       
       - name: 'Say Lorem Ipsum on Step 2'
         shell: pwsh
+        env:
+          STEP_LEVEL2: 'This value comes from Step 2'
         run: 
           echo "Lorem Ipsum from Step 2"
 
-  # second-job:
-  #   name: ''
+          echo "Workflow Level $env:WORKFLOW_LEVEL"
+          echo "Job Level $env:JOB_LEVEL1"
+          echo "Step Level1 $env:STEP_LEVEL1"
+          echo "Step Level2 $env:STEP_LEVEL2"
+  
+  second-job:
+    name: 'Second Job'
+    runs-on: ubuntu-latest
+    env: 
+      JOB_LEVEL2: 'This value comes from the job level'
+    steps:
+      - name: 'Say Hello World on Step 1'
+        shell: bash
+        env:
+          STEP_LEVEL1: 'This value comes from Step 1'
+        run:
+          echo "Hellow World from Step 1"
+
+          echo "Workflow Level $WORKFLOW_LEVEL"
+          echo "Job Level $JOB_LEVEL2"
+          echo "Step Level1 $STEP_LEVEL1"
+          echo "Step Level2 $STEP_LEVEL2"
+      
+      - name: 'Say Lorem Ipsum on Step 2'
+        shell: pwsh
+        env:
+          STEP_LEVEL2: 'This value comes from Step 2'
+        run: 
+          echo "Lorem Ipsum from Step 2"
+          
+          echo "Workflow Level $env:WORKFLOW_LEVEL"
+          echo "Job Level $env:JOB_LEVEL2"
+          echo "Step Level1 $env:STEP_LEVEL1"
+          echo "Step Level2 $env:STEP_LEVEL2"
