@@ -74,38 +74,19 @@ jobs:
     strategy:
       matrix:
         os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        nodejs: [ '14.x', '16.x' ]
         
 
     runs-on: ${{ matrix.os }}
 
     steps:
-    - name: 'Set output value 1 ${{ matrix.os }}'
-      id: step1  
-      shell: bash
-      run: |
-        STEP_1='This value comes from the step 1'
-
-        echo "::add-mask::$STEP_1"
-        echo "::set-output name=value1::$STEP_1"
-
-    - name: 'Set output value 2'
-      id: step2
-      shell: pwsh
-      run: |
-        $STEP_2='This value comes from the step 2'
-
-        echo "::set-output name=value2::$STEP_2"
-
-    - name: 'Get output values'
-      shell: bash
-      run: |
-        echo "STEP 1: ${{ steps.step1.outputs.value1 }}"
-        echo "STEP 2: ${{ steps.step2.outputs.value2 }}"
-        echo "SECRET 1: ${{ secrets.SECRET_1 }}"
-
-
-        if [ ${secrets.SECRET_1} -eq "secret" ]
-          then
-            echo "True"
-          else
-            echo "False"
+      - name: 'Setup node.js version'
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.nodejs }}
+      
+      - name: 'Check node.js version on $ {{ matrix.os }}'
+        shell: bash
+        run: |
+          echo "nodejs version: ${node --version}"
+          echo "nodejs version: $(node --version)"
