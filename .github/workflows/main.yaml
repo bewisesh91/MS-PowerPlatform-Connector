@@ -97,3 +97,9 @@ jobs:
         echo "STEP 1: ${{ steps.step1.outputs.value1 }}"
         echo "STEP 2: ${{ steps.step2.outputs.value2 }}"
         echo "SECRET 1: ${{ secrets.SECRET_1 }}"
+
+        iif ("${{ secrets.SECRET_1 }}" -eq "secret") {
+          echo "TRUE"
+        } else {
+          echo "FALSE"
+        }
