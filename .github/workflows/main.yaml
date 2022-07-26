@@ -68,36 +68,40 @@ name: 'My First GitHub Actions Workflow'
 on: push
 
 jobs:
-  first-job:
-    name: 'First Job'
-
-    strategy:
-      matrix:
-        os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
-        nodejs: [ '14.x', '16.x' ]
-        
-
-    runs-on: ${{ matrix.os }}
+  build-job:
+    name: 'Build Job'
+    
+    runs-on: ubuntu-latest
 
     steps:
-      - name: 'Setup node.js version'
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.nodejs }}
+      - name: 'Say Hello'
+        shell: bash
+        run: |
+          echo "Hello World"
 
-      - name: 'Run only on Windows'
-        if: matrix.os == 'windows-latest'
-        shell: bash
-        run: |
-          echo "Windows Only"
+  deploy-to-dev-job:
+    name: 'deploy-to-dev-job'
+    needs:
+    - build-job
 
-      - name: 'Run not on Windows'
-        if: matrix.os != 'windows-latest'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Say DEV'
         shell: bash
         run: |
-          echo "Not Windows"
-      
-      - name: 'Check node.js version on $ {{ matrix.os }}'
+          echo "Hello DEV"          
+  
+  deploy-to-prod-job:
+    name: 'deploy-to-prod-job'
+    needs: 
+    - build-job
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Say PROD'
         shell: bash
         run: |
-          echo "nodejs version: $(node --version)"
+          echo "Hello PROD"
+  
