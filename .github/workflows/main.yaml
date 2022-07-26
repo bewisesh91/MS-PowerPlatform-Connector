@@ -80,6 +80,7 @@ jobs:
       run: |
         STEP_1='This value comes from the step 1'
 
+        echo "::add-mask::$STEP_1"
         echo "::set-output name=value1::$STEP_1"
 
     - name: 'Set output value 2'
@@ -87,7 +88,7 @@ jobs:
       shell: pwsh
       run: |
         $STEP_2='This value comes from the step 2'
-
+        
         echo "::set-output name=value2::$STEP_2"
 
     - name: 'Get output values'
