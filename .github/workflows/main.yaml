@@ -84,6 +84,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.nodejs }}
+
+      - name: 'Run only on Windows'
+        if: matrix.os == "windows-latest"
+        shell: bash
+        run: |
+          echo "Windows Only"
+
+      - name: 'Run not on Windows'
+        if: matrix.os != "windows-latest"
+        shell: bash
+        run: |
+          echo "Not Windows"
       
       - name: 'Check node.js version on $ {{ matrix.os }}'
         shell: bash
