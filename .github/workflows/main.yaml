@@ -13,59 +13,52 @@ jobs:
   first-job:
     name: 'First Job'
     runs-on: ubuntu-latest
-    env: 
-      JOB_LEVEL1: 'This value comes from the job level'
+    
     steps:
-      - name: 'Say Hello World on Step 1'
+      - name: 'Set environment variable 1'
         shell: bash
-        env:
-          STEP_LEVEL1: 'This value comes from Step 1'
-        run:
-          echo "Hellow World from Step 1"
-
-          echo "Workflow Level $WORKFLOW_LEVEL"
-          echo "Job Level $JOB_LEVEL1"
-          echo "Step Level1 $STEP_LEVEL1"
-          echo "Step Level2 $STEP_LEVEL2"
+        run: |
+          echo "STEP_1 = 'This value comes from the step 1'" >> $GITHUB_ENV
       
-      - name: 'Say Lorem Ipsum on Step 2'
+      - name: 'Set environment variable 1'
         shell: pwsh
-        env:
-          STEP_LEVEL2: 'This value comes from Step 2'
-        run: 
-          echo "Lorem Ipsum from Step 2"
+        run: |
+          echo "STEP_2 = 'This value comes from the step 2'" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf-8 -Append
 
-          echo "Workflow Level $env:WORKFLOW_LEVEL"
-          echo "Job Level $env:JOB_LEVEL1"
-          echo "Step Level1 $env:STEP_LEVEL1"
-          echo "Step Level2 $env:STEP_LEVEL2"
+      - name: 'Get environment variables'
+        shell: bash
+        run: |
+          echo "WORKFLOW: ${{ env.WORKFLOW_LEVEL }}"
+          echo "STEP 1: ${{ env.STEP_1 }}"
+          echo "STEP 2: ${{ env.STEP_2 }}"
   
-  second-job:
-    name: 'Second Job'
-    runs-on: ubuntu-latest
-    env: 
-      JOB_LEVEL2: 'This value comes from the job level'
-    steps:
-      - name: 'Say Hello World on Step 1'
-        shell: bash
-        env:
-          STEP_LEVEL1: 'This value comes from Step 1'
-        run:
-          echo "Hellow World from Step 1"
+  # job, step 수준에서의 차이
+  # second-job:
+  #   name: 'Second Job'
+  #   runs-on: ubuntu-latest
+  #   env: 
+  #     JOB_LEVEL2: 'This value comes from the job level'
+  #   steps:
+  #     - name: 'Say Hello World on Step 1'
+  #       shell: bash
+  #       env:
+  #         STEP_LEVEL1: 'This value comes from Step 1'
+  #       run:
+  #         echo "Hellow World from Step 1"
 
-          echo "Workflow Level $WORKFLOW_LEVEL"
-          echo "Job Level $JOB_LEVEL2"
-          echo "Step Level1 $STEP_LEVEL1"
-          echo "Step Level2 $STEP_LEVEL2"
+  #         echo "Workflow Level $WORKFLOW_LEVEL"
+  #         echo "Job Level $JOB_LEVEL2"
+  #         echo "Step Level1 $STEP_LEVEL1"
+  #         echo "Step Level2 $STEP_LEVEL2"
       
-      - name: 'Say Lorem Ipsum on Step 2'
-        shell: pwsh
-        env:
-          STEP_LEVEL2: 'This value comes from Step 2'
-        run: 
-          echo "Lorem Ipsum from Step 2"
+  #     - name: 'Say Lorem Ipsum on Step 2'
+  #       shell: pwsh
+  #       env:
+  #         STEP_LEVEL2: 'This value comes from Step 2'
+  #       run: 
+  #         echo "Lorem Ipsum from Step 2"
           
-          echo "Workflow Level $env:WORKFLOW_LEVEL"
-          echo "Job Level $env:JOB_LEVEL2"
-          echo "Step Level1 $env:STEP_LEVEL1"
-          echo "Step Level2 $env:STEP_LEVEL2"
+  #         echo "Workflow Level $env:WORKFLOW_LEVEL"
+  #         echo "Job Level $env:JOB_LEVEL2"
+  #         echo "Step Level1 $env:STEP_LEVEL1"
+  #         echo "Step Level2 $env:STEP_LEVEL2"

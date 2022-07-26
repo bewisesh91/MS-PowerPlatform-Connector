@@ -1,65 +1,90 @@
-param name string
+@description('Dev Info')
+param devName string = 'seunghyun'
+param devEmail string = 'bewise.seunghyun@gmail.com'
+
+@description('Location Info')
 param location string = resourceGroup().location
-param loc string = 'krc'
 
-var rg = 'rg-${name}-${loc}'
-var fncappname = 'fncapp-${name}-${loc}'
+@description('Variables')
+var ID = resourceGroup().id
+var uniqueName = uniqueString(ID)
 
-resource st 'Microsoft.Storage/storageAccounts@2021-09-01' = {
-  name: 'st${name}${loc}'
+var storageAccountName = 'stacc${uniqueName}'
+var storageAccountSkuName = 'Standard_LRS'
+
+var appServiceName = 'appsvcplan-${uniqueName}'
+var appServiceSkuName = 'Y1'
+
+var apiManagementName = 'apim-${uniqueName}'
+var apiManagmentSkuName = 'Basic'
+
+var azureFunctionName = 'azurefunc-${uniqueName}'
+
+var logAnalyticsName = 'wrkspc-${uniqueName}'
+var logAnalyticsSkuName = 'PerGB2018'
+
+var applicationInsightsName = 'appinsights-${uniqueName}'
+
+resource storageAccount 'Microsoft.Storage/storageAccounts@2021-09-01' = {
+  name: storageAccountName
   location: location
-  kind: 'StorageV2'
+  kind: 'Storage'
   sku: {
-    name: 'Standard_LRS'
+    name: storageAccountSkuName
   }
 }
 
-resource csplan 'Microsoft.Web/serverfarms@2021-03-01' = {
-  name: 'csplan-${name}-${loc}'
+resource appServicePlan 'Microsoft.Web/serverfarms@2021-03-01' = {
+  name: appServiceName
   location: location
-  kind: 'functionapp'
   sku: {
-    name: 'Y1'
+    name: appServiceSkuName
     tier: 'Dynamic'
-    size: 'Y1'
-    family: 'Y'
-    capacity: 0
-  }
-  properties: {
-    reserved: true
   }
 }
 
-resource appsvc 'Microsoft.Web/sites@2021-03-01' = {
-  name: fncappname
+resource apiManagement 'Microsoft.ApiManagement/service@2021-12-01-preview' = {
+  name: apiManagementName
+  location: location
+  sku: {
+    name: apiManagmentSkuName
+    capacity: 1
+  }
+  properties: {
+    publisherEmail: devEmail
+    publisherName: devName
+  }
+}
+
+resource azureFunction 'Microsoft.Web/sites@2021-03-01' = {
+  name: azureFunctionName
   location: location
   kind: 'functionapp'
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
-    serverFarmId: csplan.id
-    siteConfig: {
-      appSettings: [
-        {
-          name: 'AzureWebJobsStorage'
-          value: st.id
-        }
-      ]
+    serverFarmId: appServicePlan.id
+  }
+}
+
+resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2021-12-01-preview' = {
+  name: logAnalyticsName
+  location: location
+  properties: {
+    retentionInDays: 30
+    sku: {
+      name: logAnalyticsSkuName
     }
   }
 }
 
-output rn string = rg
-
-
-
-// Goal : Implement Resources
-
-// * 애저 API 관리자
-
-
-// * 애저 펑션
-// * 애저 저장소 어카운트
-// * 애저 앱 서비스 플랜
-// * 애저 애플리케이션 인사이트
-// * 애저 로그 아날리틱스 워크스페이스
-
-
+resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
+  name: applicationInsightsName
+  location: location
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+    WorkspaceResourceId: logAnalytics.id
+  }
+}
