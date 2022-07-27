@@ -9,16 +9,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Mask output value
-      id: first
+    - name: Show secret
       shell: bash
       run: |
-        first_value="This is the value for the first output"
+        echo ${{ secrets.SECRET_1 }}
 
-        echo "::add-mask::$first_value"
-        echo "::set-output name=first_value::$first_value"
-
-    - name: Check output value
-      shell: bash
+    - name: Check secret
+      shell: pwsh
       run: |
-        echo "first value: ${{ steps.first.outputs.first_value }}"
+        if ("${{ secrets.SECRET_1 }}" -eq "World") {
+            echo "YES!"
+        } else {
+            echo "NO!"
+        }
