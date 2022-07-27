@@ -1,0 +1,25 @@
+name: 'My First GitHub Actions'
+
+on:
+  push:
+    branches:
+    - main
+    tags:
+    - 'v*'
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  call_build:
+    uses: ./.github/workflows/ci.yaml
+    with:
+      artifact_name: apiapp
+
+  call_release:
+    uses: ./.github/worlfows/cd.yaml
+    needs: call_build
+    with:
+      title: latest
+      artifact_name: apiapp
+    secrets: inherit
