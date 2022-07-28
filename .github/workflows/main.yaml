@@ -71,7 +71,7 @@ jobs:
     - name: Release FunctionApp artifact to GitHub
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        repo_token: "${{ secrets.SECRET_1 }}"
         prerelease: false
         files: |
           artifacts/apiapp.zip
